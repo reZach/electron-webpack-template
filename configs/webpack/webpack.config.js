@@ -29,12 +29,13 @@ module.exports = {
       // rules for modules (configure loaders, parser options, etc.)
       {
         test: /\.jsx?$/,
-        include: [
-          path.resolve(__dirname, "app")
-        ],
-        exclude: [
-          path.resolve(__dirname, "app/demo-files")
-        ],
+        include: /app/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            cacheDirectory: true
+          }
+        }
         // these are matching conditions, each accepting a regular expression or string
         // test and include have the same behavior, both must be matched
         // exclude must not be matched (takes preferrence over test and include)
@@ -53,33 +54,8 @@ module.exports = {
           presets: ["es2015"]
         },
         // options for the loader
-      },
-      {
-        test: /\.html$/,
-        use: [
-          // apply multiple loaders and options
-          "htmllint-loader",
-          {
-            loader: "html-loader",
-            options: {
-              / ... /
-            }
-          }
-        ]
-      },
-      { oneOf: [ / rules / ] },
-      // only use one of these nested rules
-      { rules: [ / rules / ] },
-      // use all of these nested rules (combine with conditions to be useful)
-      { resource: { and: [ / conditions / ] } },
-      // matches only if all conditions are matched
-      { resource: { or: [ / conditions / ] } },
-      { resource: [ / conditions / ] },
-      // matches if any condition is matched (default for arrays)
-      { resource: { not: / condition / } }
-      // matches if the condition is not matched
-    ],
-    /* Advanced module configuration (click to show) */
+      }    
+    ]
   },
   resolve: {
     // options for resolving module requests
