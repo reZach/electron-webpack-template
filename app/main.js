@@ -11,6 +11,8 @@ function createWindow() {
         height: 600
     });
 
+    win.webContents.openDevTools();
+
     // and load the index.html of the app.
     win.loadFile("./dist/index.html");
 
