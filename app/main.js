@@ -1,4 +1,8 @@
-const { app, BrowserWindow } = require("electron");
+const {
+    app,
+    BrowserWindow,
+    session
+} = require("electron");
 
 // Keep a global reference of the window object, if you don"t, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -8,7 +12,11 @@ function createWindow() {
     // Create the browser window.
     win = new BrowserWindow({
         width: 800,
-        height: 600
+        height: 600,
+        webPreferences: {
+            contextIsolation: true,
+            enableRemoteModule: false
+        }
     });
 
     win.webContents.openDevTools();
@@ -23,12 +31,18 @@ function createWindow() {
         // when you should delete the corresponding element.
         win = null
     });
+
+    // https://electronjs.org/docs/tutorial/security#4-handle-session-permission-requests-from-remote-content
+    const ses = session;
+    ses.fromPartition("default").setPermissionRequestHandler((webContents, permission, callback) => {
+        return callback(false);
+    });
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on("ready", createWindow)
+app.on("ready", createWindow);
 
 // Quit when all windows are closed.
 app.on("window-all-closed", () => {
@@ -37,7 +51,7 @@ app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
         app.quit();
     }
-})
+});
 
 app.on("activate", () => {
     // On macOS it's common to re-create a window in the app when the
@@ -45,4 +59,28 @@ app.on("activate", () => {
     if (win === null) {
         createWindow();
     }
+});
+
+// https://electronjs.org/docs/tutorial/security#12-disable-or-limit-navigation
+app.on("web-contents-created", (event, contents) => {
+    contents.on("will-navigate", (event, navigationUrl) => {        
+        const parsedUrl = new URL(navigationUrl);
+        console.warn(`Navigating to '${parsedUrl}'`);
+
+        if (parsedUrl.origin !== "https://example.com") {
+            event.preventDefault()
+        }
+    });
+});
+
+// https://electronjs.org/docs/tutorial/security#13-disable-or-limit-creation-of-new-windows
+app.on('web-contents-created', (event, contents) => {
+    contents.on('new-window', async (event, navigationUrl) => {
+        console.warn("opening new window");
+        // In this example, we'll ask the operating system
+        // to open this event's url in the default browser.
+        event.preventDefault()
+
+        await shell.openExternal(navigationUrl)
+    })
 })
