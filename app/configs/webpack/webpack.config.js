@@ -1,4 +1,7 @@
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackReplaceStringPlugin = require("html-webpack-string-replace-plugin");
 const path = require("path");
+const nonce = require("../../utils/nonce");
 
 // https://www.valentinog.com/blog/babel/
 module.exports = {
@@ -28,5 +31,15 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./app/index.html",
+      filename: "./index.html",
+      excludeChunks: ["electron-main", "app"]
+    }),
+    new HtmlWebpackReplaceStringPlugin({
+      "##NONCE##": nonce
+    })
+  ]
 }
