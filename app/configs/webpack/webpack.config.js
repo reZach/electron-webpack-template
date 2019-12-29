@@ -1,3 +1,4 @@
+//const HtmlWebPackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
 // https://www.valentinog.com/blog/babel/
@@ -5,7 +6,7 @@ module.exports = {
   mode: "development",
   entry: {
     "electron-main": "./app/main.js",
-    "app": "./app/components/app/app.jsx"
+    "app": "./app/index.js"
   },
   output: {
     filename: "[name]-bundled.js", // Names the bundled files
@@ -28,5 +29,11 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  // plugins: [
+  //   new HtmlWebPackPlugin({
+  //     template: "./app/index.html",
+  //     filename: "./app/index2.html"
+  //   })
+  // ]
 }
