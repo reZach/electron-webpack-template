@@ -1,4 +1,3 @@
-//const HtmlWebPackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
 // https://www.valentinog.com/blog/babel/
@@ -29,11 +28,5 @@ module.exports = {
         }
       }
     ]
-  },
-  // plugins: [
-  //   new HtmlWebPackPlugin({
-  //     template: "./app/index.html",
-  //     filename: "./app/index2.html"
-  //   })
-  // ]
+  }
 }
