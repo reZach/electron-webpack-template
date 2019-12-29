@@ -66,10 +66,12 @@ app.on("web-contents-created", (event, contents) => {
     contents.on("will-navigate", (event, navigationUrl) => {        
         const parsedUrl = new URL(navigationUrl);
         console.warn(`Navigating to '${parsedUrl}'`);
-
-        if (parsedUrl.origin !== "https://example.com") {
-            event.preventDefault()
-        }
+        event.preventDefault();
+    });
+    contents.on("will-redirect", (event, navigationUrl) => {
+        const parsedUrl = new URL(navigationUrl);
+        console.warn(`Redirecting to '${parsedUrl}'`);
+        event.preventDefault();
     });
 });
 

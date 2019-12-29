@@ -40,11 +40,14 @@ module.exports = (env, argv) => {
         filename: "./index.html",
         excludeChunks: ["electron-main"]
       }),
+      // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
       new CspHtmlWebpackPlugin({
-        'base-uri': "'self'",
-        'object-src': "'none'",
-        'script-src': ["'self'"],
-        'style-src': ["'self'"]
+        "base-uri": "'self'",
+        "object-src": "'none'",
+        "script-src": ["'self'"],
+        "style-src": ["'self'"],
+        "frame-src": "'none'",
+        "worker-src": "'none'"
       })
     ]
   };
