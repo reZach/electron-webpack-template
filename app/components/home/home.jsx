@@ -8,8 +8,8 @@ const mapDispatch = { changeMessage };
 class Home extends React.Component {
   render() {
     return <div>
-        message: {this.props.home.message}
-        <Link to="/main">link</Link>
+        {/* message: {this.props.home.message} */}
+        <Link to="/main">link to page 2</Link>
     </div>;
   }
 }
