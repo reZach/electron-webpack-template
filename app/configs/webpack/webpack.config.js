@@ -23,7 +23,7 @@ module.exports = (env, argv) => {
           test: /\.jsx?$/,
           include: /app/,
           resolve: {
-            extensions: [".js", ".jsx"]
+            extensions: [".js", ".jsx", ".json"]
           },
           use: {
             loader: "babel-loader",
@@ -33,7 +33,7 @@ module.exports = (env, argv) => {
           }
         }
       ]
-    },
+    },    
     plugins: [
       new HtmlWebpackPlugin({
         template: "./app/index.html",
@@ -42,12 +42,12 @@ module.exports = (env, argv) => {
       }),
       // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
       new CspHtmlWebpackPlugin({
-        "base-uri": "'self'",
-        "object-src": "'none'",
+        "base-uri": ["'self'"],
+        "object-src": ["'none'"],
         "script-src": ["'self'"],
         "style-src": ["'self'"],
-        "frame-src": "'none'",
-        "worker-src": "'none'"
+        "frame-src": ["'none'"],
+        "worker-src": ["'none'"]
       })
     ]
   };

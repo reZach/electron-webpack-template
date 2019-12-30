@@ -3,6 +3,7 @@ const {
     BrowserWindow,
     session
 } = require("electron");
+const URL = require("url").URL;
 
 // Keep a global reference of the window object, if you don"t, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -63,26 +64,36 @@ app.on("activate", () => {
 
 // https://electronjs.org/docs/tutorial/security#12-disable-or-limit-navigation
 app.on("web-contents-created", (event, contents) => {
-    contents.on("will-navigate", (event, navigationUrl) => {        
+    contents.on("will-navigate", (event, navigationUrl) => {         
         const parsedUrl = new URL(navigationUrl);
-        console.warn(`Navigating to '${parsedUrl}'`);
-        event.preventDefault();
+        const validOrigins = [];
+                
+        // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
+        if (!validOrigins.includes(parsedUrl.origin)){
+            console.error(`The application tried to redirect to the following address: '${parsedUrl}'. This origin is not whitelisted and the attempt to navigate was blocked.`);
+
+            event.preventDefault();
+            return;
+        }
     });
     contents.on("will-redirect", (event, navigationUrl) => {
-        const parsedUrl = new URL(navigationUrl);
-        console.warn(`Redirecting to '${parsedUrl}'`);
+
+        // Log and prevent the app from redirecting to a new page
+        console.error(`The application tried to redirect to the following address: '${navigationUrl}'. This attempt was blocked.`);
+
         event.preventDefault();
+        return;
     });
 });
 
 // https://electronjs.org/docs/tutorial/security#13-disable-or-limit-creation-of-new-windows
-app.on('web-contents-created', (event, contents) => {
-    contents.on('new-window', async (event, navigationUrl) => {
-        console.warn("opening new window");
-        // In this example, we'll ask the operating system
-        // to open this event's url in the default browser.
-        event.preventDefault()
+app.on("web-contents-created", (event, contents) => {
+    contents.on("new-window", async (event, navigationUrl) => {
 
-        await shell.openExternal(navigationUrl)
+        // Log and prevent opening up a new window        
+        console.error(`The application tried to open a new window at the following address: '${navigationUrl}'. This attempt was blocked.`);
+
+        event.preventDefault();
+        return;
     })
 })
