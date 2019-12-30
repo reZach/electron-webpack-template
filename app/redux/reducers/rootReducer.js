@@ -1,6 +1,12 @@
-import { combineReducers } from "redux";
+import {
+    combineReducers
+} from "redux";
+import { connectRouter } from "connected-react-router";
 import homeReducer from "../components/home/homeSlice";
 
-export default combineReducers({
-  home: homeReducer
+const createRootReducer = (history) => combineReducers({
+    router: connectRouter(history),
+    home: homeReducer
 });
+
+export default createRootReducer;

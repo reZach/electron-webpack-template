@@ -68,6 +68,7 @@ app.on("activate", () => {
 app.on("web-contents-created", (event, contents) => {
     contents.on("will-navigate", (event, navigationUrl) => {         
         const parsedUrl = new URL(navigationUrl);
+        console.log(JSON.stringify(parsedUrl));
         const validOrigins = [];
                 
         // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
