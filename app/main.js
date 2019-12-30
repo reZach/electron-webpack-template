@@ -3,6 +3,7 @@ const {
     BrowserWindow,
     session
 } = require("electron");
+const path = require("path");
 const URL = require("url").URL;
 
 // Keep a global reference of the window object, if you don"t, the window will
@@ -16,9 +17,10 @@ function createWindow() {
         height: 600,
         webPreferences: {
             contextIsolation: true,
-            enableRemoteModule: false
+            enableRemoteModule: false,
+            preload: path.join(__dirname, "preload.js")
         }
-    });
+    });    
 
     win.webContents.openDevTools();
 
