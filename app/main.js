@@ -5,6 +5,8 @@ const {
 } = require("electron");
 const path = require("path");
 const URL = require("url").URL;
+const isDevelopment = process.env.NODE_ENV !== "production";
+const port = process.env.port || 4280;
 
 // Keep a global reference of the window object, if you don"t, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -22,11 +24,14 @@ function createWindow() {
         }
     });    
 
-    win.webContents.openDevTools();
-
-    // and load the index.html of the app.
-    win.loadFile("./dist/index.html");
-
+    // Load app
+    if (isDevelopment){
+        win.webContents.openDevTools();
+        win.loadURL(`http://localhost:${port}`);
+    } else {
+        win.loadFile("./dist/index.html");
+    }
+    
     // Emitted when the window is closed.
     win.on("closed", () => {
         // Dereference the window object, usually you would store windows
@@ -98,5 +103,5 @@ app.on("web-contents-created", (event, contents) => {
 
         event.preventDefault();
         return;
-    })
-})
+    });
+});
