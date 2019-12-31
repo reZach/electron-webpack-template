@@ -1,4 +1,4 @@
 {
-    "plugins": ["@babel/plugin-transform-react-jsx", "@babel/plugin-proposal-json-strings"],
+    "plugins": ["@babel/plugin-transform-react-jsx", "@babel/plugin-proposal-json-strings", "react-hot-loader/babel"],
     "presets": ["@babel/preset-env"]
 }
