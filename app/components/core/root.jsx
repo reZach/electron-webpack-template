@@ -5,9 +5,11 @@ import Routes from "../core/routes";
 
 class Root extends React.Component {
     render() {
+        const {store, history} = this.props;
+
         return (
-            <Provider store={this.props.store}>
-                <ConnectedRouter history={this.props.history}>
+            <Provider store={store}>
+                <ConnectedRouter history={history}>
                     <Routes></Routes>
                 </ConnectedRouter>
             </Provider>
