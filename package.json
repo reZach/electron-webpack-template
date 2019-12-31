@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "npm run build-dev-webpack && npm run start-dev-app",
-    "build-dev-webpack": "webpack-dev-server --mode development --config ./app/configs/webpack/webpack.config.js",
+    "build-dev-webpack": "webpack-dev-server --mode development --config ./app/configs/webpack/webpack.development.js",
     "start-dev-app": "cross-env HOT=1 NODE_ENV=development electron app/main.js",
     "prod": "npm run build-prod-webpack && npm run start-prod-app",
-    "build-prod-webpack": "webpack --mode production --config ./app/configs/webpack/webpack.config.js",
+    "build-prod-webpack": "webpack --mode production --config ./app/configs/webpack/webpack.production.js",
     "start-prod-app": "cross-env NODE_ENV=production electron app/main.js"
   },
   "repository": {
